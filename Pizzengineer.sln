@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33414.496
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{03E62C0E-7E1B-49E2-91CB-E41AB0333D3F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pizzengineering.Domain", "Pizzengineering.Domain\Pizzengineering.Domain.csproj", "{2FE6EF0C-85BF-4739-9733-6F977D4EC36B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2FE6EF0C-85BF-4739-9733-6F977D4EC36B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FE6EF0C-85BF-4739-9733-6F977D4EC36B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FE6EF0C-85BF-4739-9733-6F977D4EC36B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE6EF0C-85BF-4739-9733-6F977D4EC36B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2FE6EF0C-85BF-4739-9733-6F977D4EC36B} = {03E62C0E-7E1B-49E2-91CB-E41AB0333D3F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {25828EFB-46DA-4FC4-AD27-56F781A39E7C}
+	EndGlobalSection
+EndGlobal
