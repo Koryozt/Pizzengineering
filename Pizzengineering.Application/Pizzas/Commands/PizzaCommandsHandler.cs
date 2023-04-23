@@ -52,6 +52,14 @@ public sealed class PizzaCommandsHandler :
 			return Result.Failure(DomainErrors.Pizza.NotFound);
 		}
 
-		pizza.ChangeVariableInformation();
+		pizza.ChangeVariableInformation(
+			request.Rate,
+			request.Price,
+			request.HasDiscount);
+
+		_repository.Update(pizza);
+		await _uow.SaveChangesAsync(cancellationToken);
+
+		return Result.Success();
 	}
 }

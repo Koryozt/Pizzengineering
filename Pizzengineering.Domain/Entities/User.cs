@@ -37,7 +37,7 @@ public sealed class User : AggregateRoot, IAuditableEntity
 	public Password Password { get; private set; }
 	public PaymentInformation PaymentInformation { get; private set; }
 	public string Salt { get; init; }
-	public ICollection<Role> Role { get; set; }
+	public ICollection<Role> Roles { get; set; }
 	public IReadOnlyCollection<Order> OrdersMade => _ordersMade;
 
 	public DateTime CreatedOnUtc { get; init; }
@@ -132,5 +132,7 @@ public sealed class User : AggregateRoot, IAuditableEntity
 
 		Firstname = firstName;
 		Lastname = lastName;
+
+		LastModifiedUtc = DateTime.UtcNow;
 	}
 }
