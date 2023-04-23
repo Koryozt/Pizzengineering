@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pizzengineering.Application\Pizzengineering.Application.csproj" />
+    <ProjectReference Include="..\Pizzengineering.Domain\Pizzengineering.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
