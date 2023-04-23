@@ -1,8 +1,8 @@
-﻿using Gatherly.Domain.Entities;
+﻿using Pizzengineering.Domain.Entities;
 
-namespace Gatherly.Application.Abstractions;
+namespace Pizzengineering.Application.Abstractions;
 
 public interface IJwtProvider
 {
-    string Generate(Member member);
+    string Generate(User member);
 }

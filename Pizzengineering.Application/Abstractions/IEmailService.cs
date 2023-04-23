@@ -1,12 +1,10 @@
-﻿using Gatherly.Domain.Entities;
+﻿using Pizzengineering.Domain.Entities;
 
-namespace Gatherly.Application.Abstractions;
+namespace Pizzengineering.Application.Abstractions;
 
 public interface IEmailService
 {
-    Task SendWelcomeEmailAsync(Member member, CancellationToken cancellationToken = default);
+    Task SendWelcomeEmailAsync(User member, CancellationToken cancellationToken = default);
 
-    Task SendInvitationSentEmailAsync(Member member, Gathering gathering, CancellationToken cancellationToken = default);
-
-    Task SendInvitationAcceptedEmailAsync(Gathering gathering, CancellationToken cancellationToken = default);
+    Task SendOrderConfirmationEmailAsync(User member, Order order, CancellationToken cancellationToken = default);
 }
