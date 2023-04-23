@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Pizzengineering.Application.Abstractions.Messaging;
 using Pizzengineering.Application.Payments.Commands.Create;
+using Pizzengineering.Application.Payments.Commands.Update;
 using Pizzengineering.Domain.Abstractions;
 using Pizzengineering.Domain.Entities;
 using Pizzengineering.Domain.Errors;
@@ -14,7 +15,8 @@ using Pizzengineering.Domain.ValueObjects.PaymentInformation;
 namespace Pizzengineering.Application.Payments.Commands;
 
 public sealed class PaymentCommandsHandler :
-	ICommandHandler<CreatePaymentCommand, Guid>
+	ICommandHandler<CreatePaymentCommand, Guid>,
+	ICommandHandler<UpdatePaymentCommand>
 {
 	private readonly IPaymentInfoRepository _repository;
 	private readonly IUnitOfWork _uow;
@@ -59,5 +61,30 @@ public sealed class PaymentCommandsHandler :
 		await _uow.SaveChangesAsync(cancellationToken);
 
 		return Result.Success(information.Id);
+	}
+
+	public async Task<Result> Handle(UpdatePaymentCommand request, CancellationToken cancellationToken)
+	{
+		var information = await _repository.GetByIdAsync(request.Id, cancellationToken);
+
+		if (information is null)
+		{
+			return Result.Failure(DomainErrors.PaymentInformation.NotFound(request.Id));
+		}
+
+		information.ChangeData(
+			request.CreditCardNumber,
+			request.NameOnCard,
+			request.ExpirationDate,
+			request.AddressLineOne,
+			request.AddressLineTwo,
+			request.Country,
+			request.State,
+			request.City);
+
+		_repository.Update(information);
+		await _uow.SaveChangesAsync(cancellationToken);
+
+		return Result.Success();
 	}
 }

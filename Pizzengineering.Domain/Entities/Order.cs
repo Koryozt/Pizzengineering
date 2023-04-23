@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Pizzengineering.Domain.DomainEvents;
 using Pizzengineering.Domain.Primitives;
 
 namespace Pizzengineering.Domain.Entities;
@@ -48,10 +49,13 @@ public sealed class Order : AggregateRoot, IAuditableEntity
 			pizzas,
 			purchasedAtUtc)
 		{
-			UserGuid = user.Id,
+			UserId = user.Id,
 			CreatedOnUtc = DateTime.UtcNow,
 			LastModifiedUtc = DateTime.UtcNow
 		};
+
+		order.RaiseDomainEvent(
+			new OrderCreatedDomainEvent(Guid.NewGuid(), id));
 
 		return order;
 	}

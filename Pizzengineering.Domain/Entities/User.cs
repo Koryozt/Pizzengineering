@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Pizzengineering.Domain.DomainEvents;
 using Pizzengineering.Domain.Primitives;
 using Pizzengineering.Domain.ValueObjects.User;
 
@@ -75,6 +76,10 @@ public sealed class User : AggregateRoot, IAuditableEntity
 			LastModifiedUtc = DateTime.UtcNow
 		};
 
+		user.RaiseDomainEvent(new UserRegisteredDomainEvent(
+				Guid.NewGuid(),
+				id));
+
 		return user;
 	}
 
@@ -115,5 +120,17 @@ public sealed class User : AggregateRoot, IAuditableEntity
 		string salt = Convert.ToBase64String(byteSalt);
 
 		return salt;
+	}
+
+	public void ChangeNames(Name firstName, Name lastName)
+	{
+		if (!Firstname.Value.Equals(firstName.Value) || !Lastname.Value.Equals(lastName.Value))
+		{
+			RaiseDomainEvent(new UserNameChangedDomainEvent(
+				Guid.NewGuid(), Id));
+		}
+
+		Firstname = firstName;
+		Lastname = lastName;
 	}
 }
