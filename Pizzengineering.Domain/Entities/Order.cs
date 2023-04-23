@@ -20,7 +20,7 @@ public sealed class Order : AggregateRoot, IAuditableEntity
 		PurchasedAtUtc = purchasedAtUtc;
 	}
 
-	public 	Guid UserGuid { get; private set; }
+	public 	Guid UserId { get; private set; }
 
 	public User User { get; private set; }
 	public ICollection<Pizza> Pizzas { get; private set; }
@@ -30,4 +30,29 @@ public sealed class Order : AggregateRoot, IAuditableEntity
 
 	public DateTime CreatedOnUtc { get; init; }
 	public DateTime? LastModifiedUtc { get; set; }
+
+	public static Order Create(
+		Guid id,
+		User user,
+		ICollection<Pizza> pizzas,
+		DateTime purchasedAtUtc)
+	{
+		if (user is null || pizzas.Count is 0)
+		{
+			return default!;
+		}
+
+		var order = new Order(
+			id,
+			user,
+			pizzas,
+			purchasedAtUtc)
+		{
+			UserGuid = user.Id,
+			CreatedOnUtc = DateTime.UtcNow,
+			LastModifiedUtc = DateTime.UtcNow
+		};
+
+		return order;
+	}
 }

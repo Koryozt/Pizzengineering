@@ -34,7 +34,7 @@ public sealed class PaymentInformation	: AggregateRoot, IAuditableEntity
 		City = city;
 	}
 
-	public Guid UserGuid { get; private set; }
+	public Guid UserId { get; private set; }
 	public User User { get; set; }
 
 	public CreditCardNumber CardNumber { get; private set; }
@@ -48,4 +48,36 @@ public sealed class PaymentInformation	: AggregateRoot, IAuditableEntity
 	public string City { get; private set; }
 	public DateTime CreatedOnUtc { get; init; }
 	public DateTime? LastModifiedUtc { get; set; }
+
+	public static PaymentInformation Create(
+		Guid guid,
+		User user,
+		CreditCardNumber creditCardNumber,
+		Name nameOnCard,
+		DateTime expirationDate,
+		string addressLineOne,
+		string? addressLineTwo,
+		string country,
+		string state,
+		string city)
+	{
+		var information = new PaymentInformation(
+			guid,
+			user,
+			creditCardNumber,
+			nameOnCard,
+			expirationDate,
+			addressLineOne,
+			addressLineTwo,
+			country,
+			state,
+			city)
+		{
+			UserId = user.Id,
+			CreatedOnUtc = DateTime.UtcNow,
+			LastModifiedUtc = DateTime.UtcNow
+		};
+
+		return information;
+	}
 }

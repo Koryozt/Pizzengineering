@@ -9,6 +9,56 @@ namespace Pizzengineering.Domain.Errors;
 
 public static class DomainErrors
 {
+	public static class Order
+	{
+		public static Error ExceptionInCreation = new(
+			"Order.ExceptionInCreation",
+			"There was a problem validating the user and/or there were no pizzas to buy");
+
+		public static Error NotFound(Guid id) =>
+			new Error(
+				"Order.NotFound",
+				"The order was not found. Verify if the OrderID or the UserID are correct");
+	}
+
+	public static class PaymentInformation
+	{
+		public static Error NotFound(Guid id) =>
+			new Error(
+				"PaymentInformation.NotFound",
+				$"The payment information with ID {id} was not found");
+
+		public static Error UserAlreadyWithPaymentInformation(Guid id) =>
+			new Error(
+				"PaymentInformation.UserAlreadyWithPaymentInformation",
+				$"The user with ID {id} already has a valid payment information");
+	}
+
+	public static class Pizza
+	{
+		public static Error NotFound = 
+			new Error(
+			  "Pizza.NotFound",
+			  $"The pizza does not exist. Verify the ID or the Name");
+	}
+
+	public static class User
+	{
+		public static Error NotFound(Guid id) =>
+			new Error(
+				"User.NotFound",
+				$"The user with ID {id} was not found");
+		public static Error EmailAlreadyInUse(string email) => 
+			new Error(
+			"User.EmailInUse",
+			$"Email {email} already in use. Try another one");
+
+		public static Error InvalidPassword(string password) => 
+			new Error(
+			"User.InvalidPassword",
+			$"The password {password} is invalid, check the requeriments");
+	}
+
 	public static class Email
 	{
 		public static readonly Error Empty = new(

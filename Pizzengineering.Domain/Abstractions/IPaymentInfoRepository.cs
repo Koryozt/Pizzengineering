@@ -8,7 +8,7 @@ using Pizzengineering.Domain.Shared;
 
 namespace Pizzengineering.Domain.Abstractions;
 
-public interface IPaymentInformation
+public interface IPaymentInfoRepository
 {
 	Task<PaymentInformation?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 	Task<Result<Guid>> AddAsync(

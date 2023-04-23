@@ -43,7 +43,7 @@ public sealed class CreditCardNumber : ValueObject
 		yield return Value;
 	}
 
-	private static bool IsCardNumberValid(string value)
+	public static bool IsCardNumberValid(string value)
 	{
 		int i, checkSum = 0;
 
