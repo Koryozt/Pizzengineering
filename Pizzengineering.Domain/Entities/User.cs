@@ -132,7 +132,5 @@ public sealed class User : AggregateRoot, IAuditableEntity
 
 		Firstname = firstName;
 		Lastname = lastName;
-
-		LastModifiedUtc = DateTime.UtcNow;
 	}
 }

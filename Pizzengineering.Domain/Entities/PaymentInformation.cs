@@ -112,7 +112,5 @@ public sealed class PaymentInformation : AggregateRoot, IAuditableEntity
 		Country = country;
 		State = state;
 		City = city;
-		LastModifiedUtc = DateTime.UtcNow;
-
 	}
 }

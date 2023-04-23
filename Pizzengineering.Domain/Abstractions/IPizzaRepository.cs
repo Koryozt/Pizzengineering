@@ -13,7 +13,7 @@ public interface IPizzaRepository
 {
 	Task<List<Pizza>> GetAllAsync(CancellationToken cancellationToken);
 	Task<Pizza?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
-	Task<Pizza?> GetByNameAsync(Name name, CancellationToken cancellation);
-	Task<Result<Guid>> AddAsync(Pizza pizza, CancellationToken cancellationToken);
+	Task<Pizza?> GetByNameAsync(Name name, CancellationToken cancellationToken);
+	Task AddAsync(Pizza pizza, CancellationToken cancellationToken);
 	void Update(Pizza pizza);
 }

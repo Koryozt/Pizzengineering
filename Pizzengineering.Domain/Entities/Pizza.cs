@@ -74,6 +74,5 @@ public sealed class Pizza : AggregateRoot, IAuditableEntity
 		Rate = rate;
 		Price = price;
 		HasDiscount = hasDiscount;
-		LastModifiedUtc = DateTime.UtcNow;
 	}
 }

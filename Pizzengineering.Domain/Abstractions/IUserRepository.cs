@@ -12,7 +12,7 @@ namespace Pizzengineering.Domain.Abstractions;
 public interface IUserRepository
 {
 	Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
-	Task<Result<Guid>> AddAsync(User user, CancellationToken cancellationToken);
-	Task<bool> IsEmailUniqueAsync(Email email, CancellationToken cancellationToken);
+	Task AddAsync(User user, CancellationToken cancellationToken);
+	Task<bool> IsEmailInUseAsync(Email email, CancellationToken cancellationToken);
 	void Update(User user, CancellationToken cancellationToken);
 }

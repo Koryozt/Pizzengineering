@@ -32,7 +32,7 @@ public sealed class UserCommandsHandler :
 	// Register
 	public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
 	{
-		bool isUnique = await _repository.IsEmailUniqueAsync(request.Email, cancellationToken);
+		bool isUnique = await _repository.IsEmailInUseAsync(request.Email, cancellationToken);
 		
 		if (!isUnique) 
 		{
