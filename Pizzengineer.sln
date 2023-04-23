@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{03E62C0E-7E1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pizzengineering.Domain", "Pizzengineering.Domain\Pizzengineering.Domain.csproj", "{2FE6EF0C-85BF-4739-9733-6F977D4EC36B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pizzengineering.Application", "Pizzengineering.Application\Pizzengineering.Application.csproj", "{5BFDBE79-3532-408D-A906-47052690D9B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +19,17 @@ Global
 		{2FE6EF0C-85BF-4739-9733-6F977D4EC36B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FE6EF0C-85BF-4739-9733-6F977D4EC36B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FE6EF0C-85BF-4739-9733-6F977D4EC36B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BFDBE79-3532-408D-A906-47052690D9B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BFDBE79-3532-408D-A906-47052690D9B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BFDBE79-3532-408D-A906-47052690D9B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BFDBE79-3532-408D-A906-47052690D9B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2FE6EF0C-85BF-4739-9733-6F977D4EC36B} = {03E62C0E-7E1B-49E2-91CB-E41AB0333D3F}
+		{5BFDBE79-3532-408D-A906-47052690D9B9} = {03E62C0E-7E1B-49E2-91CB-E41AB0333D3F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {25828EFB-46DA-4FC4-AD27-56F781A39E7C}
