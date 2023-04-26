@@ -1,4 +1,9 @@
-﻿using Pizzengineering.Domain.DomainEvents;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Pizzengineering.Domain.DomainEvents;
 using Pizzengineering.Domain.Primitives;
 using Pizzengineering.Domain.ValueObjects.PaymentInformation;
 using Pizzengineering.Domain.ValueObjects.User;
@@ -28,6 +33,11 @@ public sealed class PaymentInformation : AggregateRoot, IAuditableEntity
 		Country = country;
 		State = state;
 		City = city;
+	}
+
+	private PaymentInformation()
+	{
+
 	}
 
 	public Guid UserId { get; private set; }

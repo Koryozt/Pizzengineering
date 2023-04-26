@@ -1,15 +1,15 @@
-﻿using MediatR;
-using Pizzengineering.Domain.Shared;
+﻿using Pizzengineering.Domain.Shared;
+using MediatR;
 
 namespace Pizzengineering.Application.Abstractions.Messaging;
 
 public interface ICommandHandler<TCommand> : IRequestHandler<TCommand, Result>
-	where TCommand : ICommand
+    where TCommand : ICommand
 {
 }
 
 public interface ICommandHandler<TCommand, TResponse>
-	: IRequestHandler<TCommand, Result<TResponse>>
-	where TCommand : ICommand<TResponse>
+    : IRequestHandler<TCommand, Result<TResponse>>
+    where TCommand : ICommand<TResponse>
 {
 }

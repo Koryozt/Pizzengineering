@@ -1,4 +1,9 @@
-﻿using Pizzengineering.Domain.Errors;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Pizzengineering.Domain.Errors;
 using Pizzengineering.Domain.Primitives;
 using Pizzengineering.Domain.Shared;
 
@@ -7,7 +12,7 @@ namespace Pizzengineering.Domain.ValueObjects.Pizza;
 public sealed class Rate : ValueObject
 {
 	public double Value { get; set; }
-	public const double MinValue = 0.0;
+	public const double MinValue = 0.0; 
 	public const double MaxValue = 5.0;
 
 	private Rate(double value)

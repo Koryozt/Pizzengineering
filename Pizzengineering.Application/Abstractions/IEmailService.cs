@@ -4,7 +4,7 @@ namespace Pizzengineering.Application.Abstractions;
 
 public interface IEmailService
 {
-	Task SendWelcomeEmailAsync(User member, CancellationToken cancellationToken = default);
+    Task SendWelcomeEmailAsync(User member, CancellationToken cancellationToken = default);
 
-	Task SendOrderConfirmationEmailAsync(User member, Order order, CancellationToken cancellationToken = default);
+    Task SendOrderConfirmationEmailAsync(User member, Order order, CancellationToken cancellationToken = default);
 }

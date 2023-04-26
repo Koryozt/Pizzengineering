@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Pizzengineering.Domain.Shared;
+﻿using Pizzengineering.Domain.Shared;
+using MediatR;
 
 namespace Pizzengineering.Application.Abstractions.Messaging;
 

@@ -1,10 +1,15 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MediatR;
 using Newtonsoft.Json;
 using Pizzengineering.Domain.Primitives;
-using Pizzengineering.Persistence;
 using Pizzengineering.Persistence.OutBox;
+using Pizzengineering.Persistence;
 using Quartz;
+using Microsoft.EntityFrameworkCore;
 
 namespace Pizzengineering.Infrastructure.BackgroundJobs;
 

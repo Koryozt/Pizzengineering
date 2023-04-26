@@ -1,5 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 using Pizzengineering.Domain.Entities;
 using Pizzengineering.Domain.Enumerators;
 
@@ -12,7 +17,7 @@ public sealed class RolePermissionConfiguration : IEntityTypeConfiguration<RoleP
 		builder.HasKey(x => new { x.RoleId, x.PermissionId });
 
 		builder.HasData(
-			Create(Role.Registered, Permissions.Read));
+			Create(Role.Registered, Permissions.ReadUser));
 	}
 
 	private static RolePermission Create(Role role, Permissions permission)
