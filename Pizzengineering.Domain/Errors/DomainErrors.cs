@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Pizzengineering.Domain.Shared;
+﻿using Pizzengineering.Domain.Shared;
 
 namespace Pizzengineering.Domain.Errors;
 
@@ -36,7 +31,7 @@ public static class DomainErrors
 
 	public static class Pizza
 	{
-		public static Error NotFound = 
+		public static Error NotFound =
 			new Error(
 			  "Pizza.NotFound",
 			  $"The pizza does not exist. Verify the ID or the Name");
@@ -48,12 +43,12 @@ public static class DomainErrors
 			new Error(
 				"User.NotFound",
 				$"The user with ID {id} was not found");
-		public static Error EmailAlreadyInUse(string email) => 
+		public static Error EmailAlreadyInUse(string email) =>
 			new Error(
 			"User.EmailInUse",
 			$"Email {email} already in use. Try another one");
 
-		public static Error InvalidPassword(string password) => 
+		public static Error InvalidPassword(string password) =>
 			new Error(
 			"User.InvalidPassword",
 			$"The password {password} is invalid, check the requeriments");

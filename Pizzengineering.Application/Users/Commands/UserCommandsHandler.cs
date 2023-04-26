@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Pizzengineering.Application.Abstractions.Messaging;
+﻿using Pizzengineering.Application.Abstractions.Messaging;
 using Pizzengineering.Application.Users.Commands.Login;
 using Pizzengineering.Application.Users.Commands.Register;
 using Pizzengineering.Application.Users.Commands.Update;
 using Pizzengineering.Domain.Abstractions;
-using Pizzengineering.Domain.DomainEvents;
 using Pizzengineering.Domain.Entities;
 using Pizzengineering.Domain.Errors;
 using Pizzengineering.Domain.Shared;
 
 namespace Pizzengineering.Application.Users.Commands;
 
-public sealed class UserCommandsHandler : 
+public sealed class UserCommandsHandler :
 	ICommandHandler<CreateUserCommand, Guid>,
 	ICommandHandler<LoginCommand, string>,
 	ICommandHandler<UpdateUserCommand>
@@ -33,8 +27,8 @@ public sealed class UserCommandsHandler :
 	public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
 	{
 		bool isUnique = await _repository.IsEmailInUseAsync(request.Email, cancellationToken);
-		
-		if (!isUnique) 
+
+		if (!isUnique)
 		{
 			return Result.Failure<Guid>(DomainErrors.User.EmailAlreadyInUse(request.Email.Value));
 		}
@@ -76,7 +70,7 @@ public sealed class UserCommandsHandler :
 		}
 
 		user.ChangeNames(
-			request.Firstname, 
+			request.Firstname,
 			request.Lastname);
 
 		_repository.Update(user, cancellationToken);

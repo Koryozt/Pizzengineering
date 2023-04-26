@@ -4,5 +4,5 @@ namespace Pizzengineering.Application.Abstractions;
 
 public interface IJwtProvider
 {
-    string Generate(User member);
+	string Generate(User member);
 }

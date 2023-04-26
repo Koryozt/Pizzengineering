@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Pizzengineering.Domain.Abstractions;
 using Pizzengineering.Domain.Entities;
-using Pizzengineering.Domain.Shared;
 using Pizzengineering.Domain.ValueObjects.User;
 
 namespace Pizzengineering.Persistence.Repositories;
@@ -41,7 +34,7 @@ public class PizzaRepository : IPizzaRepository
 				.Set<Pizza>()
 					.FirstOrDefaultAsync(e => e.Name == name, cancellationToken);
 
-	public void Update(Pizza pizza)	=>
+	public void Update(Pizza pizza) =>
 		_context
 			.Set<Pizza>()
 				.Update(pizza);

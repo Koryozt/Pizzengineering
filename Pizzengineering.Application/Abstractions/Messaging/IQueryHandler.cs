@@ -1,10 +1,10 @@
-﻿using Pizzengineering.Domain.Shared;
-using MediatR;
+﻿using MediatR;
+using Pizzengineering.Domain.Shared;
 
 namespace Pizzengineering.Application.Abstractions.Messaging;
 
 public interface IQueryHandler<TQuery, TResponse>
-    : IRequestHandler<TQuery, Result<TResponse>>
-    where TQuery : IQuery<TResponse>
+	: IRequestHandler<TQuery, Result<TResponse>>
+	where TQuery : IQuery<TResponse>
 {
 }

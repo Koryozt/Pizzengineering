@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Pizzengineering.Domain.DomainEvents;
+﻿using Pizzengineering.Domain.DomainEvents;
 using Pizzengineering.Domain.Primitives;
 using Pizzengineering.Domain.ValueObjects.Pizza;
 using Pizzengineering.Domain.ValueObjects.User;
@@ -59,8 +54,8 @@ public sealed class Pizza : AggregateRoot, IAuditableEntity
 	}
 
 	public void ChangeVariableInformation(
-		Rate rate, 
-		double price, 
+		Rate rate,
+		double price,
 		bool hasDiscount)
 	{
 		if (!Rate.Value.Equals(rate.Value) ||

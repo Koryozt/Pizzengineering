@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Pizzengineering.Domain.Abstractions;
 using Pizzengineering.Domain.Entities;
-using Pizzengineering.Domain.Shared;
 
 namespace Pizzengineering.Persistence.Repositories;
 
@@ -30,7 +24,7 @@ public class PaymentInfoRepository : IPaymentInfoRepository
 					.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
 	public void Update(PaymentInformation paymentInformation) =>
-		_context 
+		_context
 			.Set<PaymentInformation>()
 				.Update(paymentInformation);
 }

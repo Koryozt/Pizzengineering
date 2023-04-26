@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Pizzengineering.Domain.DomainEvents;
+﻿using Pizzengineering.Domain.DomainEvents;
 using Pizzengineering.Domain.Primitives;
 
 namespace Pizzengineering.Domain.Entities;
@@ -21,7 +16,7 @@ public sealed class Order : AggregateRoot, IAuditableEntity
 		PurchasedAtUtc = purchasedAtUtc;
 	}
 
-	public 	Guid UserId { get; private set; }
+	public Guid UserId { get; private set; }
 
 	public User User { get; private set; }
 	public ICollection<Pizza> Pizzas { get; private set; }

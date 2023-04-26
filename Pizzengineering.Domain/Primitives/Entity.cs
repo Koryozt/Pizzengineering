@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Pizzengineering.Domain.Primitives;
+﻿namespace Pizzengineering.Domain.Primitives;
 
 public abstract class Entity : IEquatable<Entity>
 {
@@ -22,9 +16,9 @@ public abstract class Entity : IEquatable<Entity>
 
 	}
 
-	public static bool operator ==(Entity? first, Entity? second) => 
-		first is not null && 
-		second is not null && 
+	public static bool operator ==(Entity? first, Entity? second) =>
+		first is not null &&
+		second is not null &&
 		first.Equals(second);
 
 	public static bool operator !=(Entity? first, Entity? second) =>

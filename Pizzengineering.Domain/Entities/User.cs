@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using Pizzengineering.Domain.DomainEvents;
 using Pizzengineering.Domain.Primitives;
 using Pizzengineering.Domain.ValueObjects.User;
@@ -22,7 +18,7 @@ public sealed class User : AggregateRoot, IAuditableEntity
 		Name lastName,
 		Email email,
 		Password password,
-		PaymentInformation paymentInformation) : base(id) 
+		PaymentInformation paymentInformation) : base(id)
 	{
 		Firstname = firstName;
 		Lastname = lastName;
@@ -92,10 +88,10 @@ public sealed class User : AggregateRoot, IAuditableEntity
 
 		using var sha256 = SHA256.Create();
 		var mixed = password + salt + Pepper;
-		
+
 		byte[] byteValue = Encoding.UTF8.GetBytes(mixed),
 				byteHash = sha256.ComputeHash(byteValue);
-		
+
 		string hash = Convert.ToBase64String(byteHash);
 
 		var result = Password.Create(hash);
