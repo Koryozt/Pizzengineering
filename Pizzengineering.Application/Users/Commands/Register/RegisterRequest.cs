@@ -12,5 +12,4 @@ public sealed record RegisterRequest(
 	Name Firstname,
 	Name Lastname,
 	Email Email,
-	Password Password,
-	PaymentInformation PaymentInformation);
+	Password Password);

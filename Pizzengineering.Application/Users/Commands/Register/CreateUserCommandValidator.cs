@@ -31,7 +31,5 @@ public sealed class CreateUserCommandValidator : AbstractValidator<User>
 			.Matches(Password.Pattern)
 			.MinimumLength(Password.MinValue)
 			.MaximumLength(Password.MaxValue);
-
-		RuleFor(e => e.PaymentInformation).NotEmpty();
 	}
 }

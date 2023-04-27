@@ -44,8 +44,7 @@ public sealed class UserCommandsHandler :
 			request.Firstname,
 			request.Lastname,
 			request.Email,
-			request.Password,
-			request.PaymentInformation);
+			request.Password);
 
 		if (user is null)
 		{

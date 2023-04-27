@@ -13,5 +13,4 @@ public sealed record CreateUserCommand(
 	Name Firstname,
 	Name Lastname,
 	Email Email,
-	Password Password,
-	PaymentInformation PaymentInformation) : ICommand<Guid>;
+	Password Password) : ICommand<Guid>;

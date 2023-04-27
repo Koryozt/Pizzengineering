@@ -21,14 +21,12 @@ public sealed class User : AggregateRoot, IAuditableEntity
 		Name firstName,
 		Name lastName,
 		Email email,
-		Password password,
-		PaymentInformation paymentInformation) : base(id) 
+		Password password) : base(id) 
 	{
 		Firstname = firstName;
 		Lastname = lastName;
 		Email = email;
 		Password = password;
-		PaymentInformation = paymentInformation;
 	}
 
 	private User()
@@ -53,8 +51,7 @@ public sealed class User : AggregateRoot, IAuditableEntity
 		Name firstName,
 		Name lastName,
 		Email email,
-		Password password,
-		PaymentInformation paymentInformation)
+		Password password)
 	{
 		string salt = GenerateSalt();
 		string hashed = ComputeHash(password, salt);
@@ -73,8 +70,7 @@ public sealed class User : AggregateRoot, IAuditableEntity
 			firstName,
 			lastName,
 			email,
-			passwordHashed,
-			paymentInformation)
+			passwordHashed)
 		{
 			Salt = salt,
 			CreatedOnUtc = DateTime.UtcNow,
