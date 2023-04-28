@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Pizzengineering.Application.Payments.Commands.Create;
+using Pizzengineering.Application.Payments.Commands.Update;
 using Pizzengineering.Application.Payments.Queries;
 using Pizzengineering.Application.Payments.Queries.GetByCondition;
 using Pizzengineering.Domain.Shared;
@@ -48,5 +49,18 @@ public sealed class PaymentInformationController : ApiController
 		}
 
 		return Ok(result.Value);
+	}
+
+	[HttpPut]
+	public async Task<IActionResult> Update(UpdatePaymentCommand command, CancellationToken cancellationToken)
+	{
+		Result result = await Sender.Send(command, cancellationToken);
+
+		if (result.IsFailure)
+		{
+			return BadRequest(result.Error);
+		}
+
+		return NoContent();
 	}
 }

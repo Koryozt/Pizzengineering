@@ -10,42 +10,44 @@ using Pizzengineering.Domain.Shared;
 
 namespace Pizzengineering.Domain.ValueObjects.User;
 
-public sealed class Password : ValueObject
+public sealed partial class Password : ValueObject
 {
-    public const int MinValue = 8;
-    public const int MaxValue = 32;
-    public const string Pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]";
+	public const int MinValue = 8;
+	public const int MaxValue = 32;
 
-    public string Value { get; private set; }
+	[GeneratedRegex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,32}$", RegexOptions.IgnoreCase, "en-US")]
+	private static partial Regex PasswordMatchGeneratedRegex();
 
-    public Password(string value)
-    {
-        Value = value;
-    }
+	public string Value { get; private set; }
 
-    public Password()
-    {
+	public Password(string value)
+	{
+		Value = value;
+	}
 
-    }
+	public Password()
+	{
 
-    public static Result<Password> Create(string password) =>
-        Result.Create(password)
-            .Ensure(
-                e => string.IsNullOrEmpty(e),
-                DomainErrors.Password.Empty)
-            .Ensure(
-                e => e.Length > MinValue,
-                DomainErrors.Password.TooShort)
-            .Ensure(
-                e => e.Length < MaxValue,
-                DomainErrors.Password.TooLong)
-            .Ensure(
-                e => Regex.IsMatch(e, Pattern),
-                DomainErrors.Password.Invalid)
-            .Map(e => new Password(e));
+	}
 
-    public override IEnumerable<object> GetAtomicValues()
-    {
-        yield return Value;
-    }
+	public static Result<Password> Create(string password) =>
+		Result.Create(password)
+			.Ensure(
+				e => !string.IsNullOrWhiteSpace(e),
+				DomainErrors.Password.Empty)
+			.Ensure(
+				e => e.Length > MinValue,
+				DomainErrors.Password.TooShort)
+			.Ensure(
+				e => e.Length < MaxValue,
+				DomainErrors.Password.TooLong)
+			.Ensure(
+				e => PasswordMatchGeneratedRegex().IsMatch(e),
+				DomainErrors.Password.Invalid)
+			.Map(e => new Password(e));
+
+	public override IEnumerable<object> GetAtomicValues()
+	{
+		yield return Value;
+	}
 }

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Pizzengineering.Application.Pizzas.Commands.Create;
+using Pizzengineering.Application.Pizzas.Commands.Update;
 using Pizzengineering.Application.Pizzas.Queries;
 using Pizzengineering.Application.Pizzas.Queries.All;
 using Pizzengineering.Application.Pizzas.Queries.ById;
@@ -50,8 +51,8 @@ public sealed class PizzaController : ApiController
 		return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
 	}
 
-	[HttpGet("{name:string}")]
-	public async Task<IActionResult> GetByName(string name, CancellationToken cancellationToken)
+	[HttpGet]
+	public async Task<IActionResult> GetByName([FromBody] string name, CancellationToken cancellationToken)
 	{
 		Result<Name> nameResult = Name.Create(name);
 
@@ -65,4 +66,18 @@ public sealed class PizzaController : ApiController
 
 		return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
 	}
+
+	[HttpPut]
+	public async Task<IActionResult> Update(UpdatePizzaCommand command, CancellationToken cancellationToken)
+	{
+		Result result = await Sender.Send(command, cancellationToken);
+
+		if (result.IsFailure)
+		{
+			return BadRequest(result.Error);
+		}
+
+		return NoContent();
+	}
+	
 }

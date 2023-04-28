@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Pizzengineering.Application.Users.Commands.Login;
 using Pizzengineering.Application.Users.Commands.Register;
+using Pizzengineering.Application.Users.Commands.Update;
 using Pizzengineering.Application.Users.Queries;
 using Pizzengineering.Application.Users.Queries.GetUserById;
 using Pizzengineering.Domain.Shared;
@@ -61,7 +62,7 @@ public sealed class UserController : ApiController
 		return Ok(result.Value);
 	}
 
-	[HttpGet]
+	[HttpGet("{id:guid}")]
 	public async Task<IActionResult> Get(
 		Guid id,
 		CancellationToken cancellationToken)
@@ -71,5 +72,20 @@ public sealed class UserController : ApiController
 		Result<UserResponse> response = await Sender.Send(query,cancellationToken);
 
 		return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+	}
+
+	[HttpPatch]
+	public async Task<IActionResult> Update(
+		UpdateUserCommand command, 
+		CancellationToken cancellationToken)
+	{
+		Result result = await Sender.Send(command, cancellationToken);
+
+		if (result.IsFailure)
+		{
+			return BadRequest(result.Error);
+		}
+
+		return NoContent();
 	}
 }

@@ -38,17 +38,15 @@ public sealed class UserCommandsHandler :
 	{
 		Result<Email> emailResult = Email.Create(request.Email);
 
-		bool isUnique = await _repository.IsEmailInUseAsync(emailResult.Value, cancellationToken);
+		bool isNotUnique = await _repository.IsEmailInUseAsync(emailResult.Value, cancellationToken);
 		
-		if (!isUnique) 
+		if (isNotUnique) 
 		{
 			return Result.Failure<Guid>(DomainErrors.User.EmailAlreadyInUse(request.Email));
 		}
 
-		Result<Name> firstnameResult = Name.Create(request.Firstname),
-			lastnameResult = Name.Create(request.Lastname);
-
-
+		Result<Name> firstnameResult = Name.Create(request.Firstname);
+		Result<Name> lastnameResult = Name.Create(request.Lastname);
 		Result<Password> passwordResult = Password.Create(request.Password);
 
 		if (firstnameResult.IsFailure || 
@@ -87,11 +85,15 @@ public sealed class UserCommandsHandler :
 
 		User? member = await _repository.GetByEmailAsync(email.Value, cancellationToken);
 
+		
+
 		if (member is null)
 		{
 			return Result.Failure<string>(
 				DomainErrors.User.InvalidCredentials);
 		}
+
+
 
 		string token = _provider.Generate(member);
 
