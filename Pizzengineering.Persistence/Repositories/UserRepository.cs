@@ -25,6 +25,11 @@ public class UserRepository : IUserRepository
 			.Set<User>()
 				.AddAsync(user, cancellationToken);
 
+	public async Task<User?> GetByEmailAsync(Email email, CancellationToken cancellationToken) =>
+		await _context
+			.Set<User>()
+				.FirstOrDefaultAsync(e => e.Email == email, cancellationToken);
+
 	public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken) =>
 		await _context
 			.Set<User>()
@@ -34,9 +39,10 @@ public class UserRepository : IUserRepository
 		await _context
 			.Set<User>()
 				.AnyAsync(e => e.Email == email);
+	
 
-	public void Update(User user, CancellationToken cancellationToken)
-	{
-		throw new NotImplementedException();
-	}
+	public void Update(User user) =>
+		_context
+			.Set<User>()
+				.Update(user);
 }
