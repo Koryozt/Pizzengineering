@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Pizzengineering.Domain.Shared;
+using Pizzengineering.Domain.ValueObjects.User;
 
 namespace Pizzengineering.Domain.Errors;
 
@@ -28,6 +29,12 @@ public static class DomainErrors
 				"PaymentInformation.NotFound",
 				$"The payment information with ID {id} was not found");
 
+		public static Error Invalid(string card, string name) =>
+	new Error(
+		"PaymentInformation.Invalid",
+		"Could not create an instance of Payment Information. " +
+		$"The name {name} or the card number {card} maybe are invalid");
+
 		public static Error UserAlreadyWithPaymentInformation(Guid id) =>
 			new Error(
 				"PaymentInformation.UserAlreadyWithPaymentInformation",
@@ -40,10 +47,21 @@ public static class DomainErrors
 			new Error(
 			  "Pizza.NotFound",
 			  $"The pizza does not exist. Verify the ID or the Name");
+
+		public static Error Invalid(string name, double rate, string description) =>
+			new Error(
+				"Pizza.Invalid",
+				"Could not create an instance of Pizza. " +
+				$"The name {name}, the rate {rate} or the description {description} maybe are invalid");
 	}
 
 	public static class User
 	{
+		public static Error InvalidCredentials =
+			new Error(
+				"User.InvalidCredentials",
+				"The values provided are not valid");
+
 		public static Error NotFound(Guid id) =>
 			new Error(
 				"User.NotFound",
