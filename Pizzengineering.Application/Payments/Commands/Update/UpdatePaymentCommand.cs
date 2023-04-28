@@ -11,8 +11,8 @@ namespace Pizzengineering.Application.Payments.Commands.Update;
 
 public sealed record UpdatePaymentCommand(
 	Guid Id,
-	CreditCardNumber CreditCardNumber,
-	Name NameOnCard,
+	string CreditCardNumber,
+	string NameOnCard,
 	DateTime ExpirationDate,
 	string AddressLineOne,
 	string? AddressLineTwo,

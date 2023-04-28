@@ -10,8 +10,8 @@ using Pizzengineering.Domain.ValueObjects.User;
 namespace Pizzengineering.Application.Pizzas.Commands.Create;
 
 public sealed record CreatePizzaCommand(
-	Name Name,
+	string Name,
 	double Price,
 	bool HasDiscount,
-	Rate Rate,
-	Description Description) : ICommand<Guid>;
+	double Rate,
+	string Description) : ICommand<Guid>;

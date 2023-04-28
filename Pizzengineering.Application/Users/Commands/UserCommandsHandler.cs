@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Pizzengineering.Application.Abstractions;
 using Pizzengineering.Application.Abstractions.Messaging;
 using Pizzengineering.Application.Users.Commands.Login;
 using Pizzengineering.Application.Users.Commands.Register;
@@ -12,6 +13,7 @@ using Pizzengineering.Domain.DomainEvents;
 using Pizzengineering.Domain.Entities;
 using Pizzengineering.Domain.Errors;
 using Pizzengineering.Domain.Shared;
+using Pizzengineering.Domain.ValueObjects.User;
 
 namespace Pizzengineering.Application.Users.Commands;
 
@@ -21,34 +23,55 @@ public sealed class UserCommandsHandler :
 	ICommandHandler<UpdateUserCommand>
 {
 	private readonly IUserRepository _repository;
+	private readonly IJwtProvider _provider;
 	private readonly IUnitOfWork _uow;
 
-	public UserCommandsHandler(IUnitOfWork uow, IUserRepository repository)
+	public UserCommandsHandler(IUnitOfWork uow, IUserRepository repository, IJwtProvider provider)
 	{
 		_repository = repository;
 		_uow = uow;
+		_provider = provider;
 	}
 
 	// Register
 	public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
 	{
-		bool isUnique = await _repository.IsEmailInUseAsync(request.Email, cancellationToken);
+		Result<Email> emailResult = Email.Create(request.Email);
+
+		bool isUnique = await _repository.IsEmailInUseAsync(emailResult.Value, cancellationToken);
 		
 		if (!isUnique) 
 		{
-			return Result.Failure<Guid>(DomainErrors.User.EmailAlreadyInUse(request.Email.Value));
+			return Result.Failure<Guid>(DomainErrors.User.EmailAlreadyInUse(request.Email));
+		}
+
+		Result<Name> firstnameResult = Name.Create(request.Firstname),
+			lastnameResult = Name.Create(request.Lastname);
+
+
+		Result<Password> passwordResult = Password.Create(request.Password);
+
+		if (firstnameResult.IsFailure || 
+			lastnameResult.IsFailure ||
+			emailResult.IsFailure ||
+			passwordResult.IsFailure)
+		{
+			return Result.Failure<Guid>(
+				DomainErrors
+				.User
+				.InvalidCredentials);
 		}
 
 		var user = User.Create(
 			Guid.NewGuid(),
-			request.Firstname,
-			request.Lastname,
-			request.Email,
-			request.Password);
+			firstnameResult.Value,
+			lastnameResult.Value,
+			emailResult.Value,
+			passwordResult.Value);
 
 		if (user is null)
 		{
-			return Result.Failure<Guid>(DomainErrors.User.InvalidPassword(request.Password.Value));
+			return Result.Failure<Guid>(DomainErrors.User.InvalidPassword(request.Password));
 		}
 
 		await _repository.AddAsync(user, cancellationToken);
@@ -58,9 +81,21 @@ public sealed class UserCommandsHandler :
 	}
 
 	//Login
-	public Task<Result<string>> Handle(LoginCommand request, CancellationToken cancellationToken)
+	public async Task<Result<string>> Handle(LoginCommand request, CancellationToken cancellationToken)
 	{
-		throw new NotImplementedException();
+		Result<Email> email = Email.Create(request.Email);
+
+		User? member = await _repository.GetByEmailAsync(email.Value, cancellationToken);
+
+		if (member is null)
+		{
+			return Result.Failure<string>(
+				DomainErrors.User.InvalidCredentials);
+		}
+
+		string token = _provider.Generate(member);
+
+		return Result.Success(token);
 	}
 
 	//Update
@@ -74,11 +109,14 @@ public sealed class UserCommandsHandler :
 				DomainErrors.User.NotFound(request.Id));
 		}
 
-		user.ChangeNames(
-			request.Firstname, 
-			request.Lastname);
+		Result<Name> firstnameResult = Name.Create(request.Firstname),
+			lastnameResult = Name.Create(request.Lastname);
 
-		_repository.Update(user, cancellationToken);
+		user.ChangeNames(
+			firstnameResult.Value, 
+			lastnameResult.Value);
+
+		_repository.Update(user);
 
 		await _uow.SaveChangesAsync(cancellationToken);
 

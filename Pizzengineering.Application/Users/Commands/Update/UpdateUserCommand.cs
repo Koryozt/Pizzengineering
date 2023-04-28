@@ -10,5 +10,5 @@ namespace Pizzengineering.Application.Users.Commands.Update;
 
 public sealed record UpdateUserCommand(
 	Guid Id,
-	Name Firstname,
-	Name Lastname) : ICommand;
+	string Firstname,
+	string Lastname) : ICommand;

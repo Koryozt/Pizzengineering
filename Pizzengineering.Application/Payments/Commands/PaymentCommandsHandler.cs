@@ -11,6 +11,7 @@ using Pizzengineering.Domain.Entities;
 using Pizzengineering.Domain.Errors;
 using Pizzengineering.Domain.Shared;
 using Pizzengineering.Domain.ValueObjects.PaymentInformation;
+using Pizzengineering.Domain.ValueObjects.User;
 
 namespace Pizzengineering.Application.Payments.Commands;
 
@@ -37,19 +38,22 @@ public sealed class PaymentCommandsHandler :
 				.UserAlreadyWithPaymentInformation(request.User.Id));
 		}
 
-		if (CreditCardNumber.IsCardNumberValid(request.CreditCardNumber.Value))
+		Result<CreditCardNumber> cardNumberResult = CreditCardNumber.Create(request.CreditCardNumber);
+		Result<Name> nameResult = Name.Create(request.NameOnCard);
+
+		if (cardNumberResult.IsFailure ||  nameResult.IsFailure) 
 		{
 			return Result.Failure<Guid>(
 				DomainErrors
-				.CreditCardNumber
-				.Invalid);
+				.PaymentInformation
+				.Invalid(request.CreditCardNumber, request.NameOnCard));
 		}
 
 		var information = PaymentInformation.Create(
 			Guid.NewGuid(),
 			request.User,
-			request.CreditCardNumber,
-			request.NameOnCard,
+			cardNumberResult.Value,
+			nameResult.Value,
 			request.ExpirationDate,
 			request.AddressLineOne,
 			request.AddressLineTwo,
@@ -69,12 +73,26 @@ public sealed class PaymentCommandsHandler :
 
 		if (information is null)
 		{
-			return Result.Failure(DomainErrors.PaymentInformation.NotFound(request.Id));
+			return Result.Failure(
+				DomainErrors
+				.PaymentInformation
+				.NotFound(request.Id));
+		}
+
+		Result<CreditCardNumber> cardNumberResult = CreditCardNumber.Create(request.CreditCardNumber);
+		Result<Name> nameResult = Name.Create(request.NameOnCard);
+
+		if (cardNumberResult.IsFailure || nameResult.IsFailure)
+		{
+			return Result.Failure<Guid>(
+				DomainErrors
+				.PaymentInformation
+				.Invalid(request.CreditCardNumber, request.NameOnCard));
 		}
 
 		information.ChangeData(
-			request.CreditCardNumber,
-			request.NameOnCard,
+			cardNumberResult.Value,
+			nameResult.Value,
 			request.ExpirationDate,
 			request.AddressLineOne,
 			request.AddressLineTwo,

@@ -9,5 +9,5 @@ using Pizzengineering.Domain.ValueObjects.User;
 namespace Pizzengineering.Application.Users.Commands.Login;
 
 public sealed record LoginCommand(
-	Email Email,
-	Password Password) : ICommand<string>;
+	string Email,
+	string Password) : ICommand<string>;

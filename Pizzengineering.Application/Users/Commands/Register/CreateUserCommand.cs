@@ -10,7 +10,7 @@ using Pizzengineering.Domain.ValueObjects.User;
 namespace Pizzengineering.Application.Users.Commands.Register;
 
 public sealed record CreateUserCommand(
-	Name Firstname,
-	Name Lastname,
-	Email Email,
-	Password Password) : ICommand<Guid>;
+	string Firstname,
+	string Lastname,
+	string Email,
+	string Password) : ICommand<Guid>;

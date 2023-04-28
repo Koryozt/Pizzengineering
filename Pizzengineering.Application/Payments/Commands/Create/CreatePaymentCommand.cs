@@ -12,8 +12,8 @@ namespace Pizzengineering.Application.Payments.Commands.Create;
 
 public sealed record CreatePaymentCommand(
 		User User,
-		CreditCardNumber CreditCardNumber,
-		Name NameOnCard,
+		string CreditCardNumber,
+		string NameOnCard,
 		DateTime ExpirationDate,
 		string AddressLineOne,
 		string? AddressLineTwo,

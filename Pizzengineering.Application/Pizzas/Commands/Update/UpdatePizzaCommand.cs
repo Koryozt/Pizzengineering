@@ -10,6 +10,6 @@ namespace Pizzengineering.Application.Pizzas.Commands.Update;
 
 public sealed record UpdatePizzaCommand(
 	Guid Id, 
-	Rate Rate,
+	double Rate,
 	double Price,
 	bool HasDiscount) : ICommand;
