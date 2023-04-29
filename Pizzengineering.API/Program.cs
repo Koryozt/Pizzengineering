@@ -1,3 +1,4 @@
+using System.Drawing.Text;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,6 +20,8 @@ internal class Program
 {
 	private static void Main(string[] args)
 	{
+		const string BlazorAppUrl = "https://localhost:7148";
+
 		var builder = WebApplication.CreateBuilder(args);
 
 		builder.Services.AddControllers();
@@ -103,6 +106,18 @@ internal class Program
 		builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 		builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
+		builder.Services.AddCors(options =>
+		{
+			options.AddDefaultPolicy(
+				builder =>
+				{
+					builder.WithOrigins(BlazorAppUrl)
+							.AllowAnyHeader()
+							.AllowAnyMethod()
+							.AllowAnyOrigin();
+				});
+		});
+
 		var app = builder.Build();
 
 		if (app.Environment.IsDevelopment())
@@ -112,6 +127,8 @@ internal class Program
 		}
 
 		app.UseHttpsRedirection();
+
+		app.UseCors();
 
 		app.UseAuthentication();
 
