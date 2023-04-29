@@ -13,8 +13,8 @@ namespace Pizzengineering.Domain.Entities;
 public sealed class User : AggregateRoot, IAuditableEntity
 {
 	private readonly List<Order> _ordersMade = new();
-	private static int Iterations = 5;
 	private const string Pepper = "LqBRuuWfrnTsmrjNdi";
+	private const string SpecialChar = "-";
 
 	public User(
 		Guid id,
@@ -54,23 +54,15 @@ public sealed class User : AggregateRoot, IAuditableEntity
 		Password password)
 	{
 		string salt = GenerateSalt();
-		string hashed = ComputeHash(password, salt);
-
-		var result = Password.Create(hashed);
-
-		if (result.IsFailure)
-		{
-			return default!;
-		}
-
-		var passwordHashed = result.Value;
+		
+		Password hashed = ComputeHash(password, salt);
 
 		var user = new User(
 			id,
 			firstName,
 			lastName,
 			email,
-			passwordHashed)
+			hashed)
 		{
 			Salt = salt,
 			CreatedOnUtc = DateTime.UtcNow,
@@ -84,31 +76,31 @@ public sealed class User : AggregateRoot, IAuditableEntity
 		return user;
 	}
 
-	private static string ComputeHash(Password password, string salt)
+	private static Password ComputeHash(Password password, string salt)
 	{
-		string pass = password.Value;
-
-		if (Iterations <= 0)
-			return pass;
-
 		using var sha256 = SHA256.Create();
-		var mixed = password + salt + Pepper;
+		var mixed = password.Value + salt + Pepper;
 		
 		byte[] byteValue = Encoding.UTF8.GetBytes(mixed),
 				byteHash = sha256.ComputeHash(byteValue);
-		
-		string hash = Convert.ToBase64String(byteHash);
+
+		int index = 5;
+
+		string hash = Convert
+			.ToBase64String(byteHash)
+			.Substring(0, 30)
+			.Insert(index, SpecialChar);
 
 		var result = Password.Create(hash);
 
-		if (result.IsSuccess)
+		try
 		{
-			--Iterations;
-
-			return ComputeHash(result.Value, salt);
+			return result.Value;
 		}
-
-		return pass;
+		catch (Exception)
+		{
+			throw;
+		}
 	}
 
 	private static string GenerateSalt()

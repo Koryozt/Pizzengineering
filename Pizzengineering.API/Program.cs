@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Pizzengineering.API.Configurations;
 using Pizzengineering.Application.Behaviors;
 using Pizzengineering.Domain.Abstractions;
 using Pizzengineering.Infrastructure.Authentication;
@@ -29,6 +30,8 @@ internal class Program
 		builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 		builder.Services.AddTransient<IPaymentInfoRepository, PaymentInfoRepository>();
 		builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+		builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 		builder
 		.Services
@@ -85,9 +88,10 @@ internal class Program
 		builder
 		.Services
 		.AddControllers()
-		.AddApplicationPart(Pizzengineering.Presentation.AssemblyReference.Assembly);
+		.AddApplicationPart(Pizzengineering.Presentation.AssemblyReference.Assembly)
+		.AddNewtonsoftJson();
 
-		builder.Services.AddSwaggerGen();
+		builder.Services.AddSwaggerConfiguration();
 
 		builder.Services.ConfigureOptions<JwtOptionsSetup>();
 		builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();

@@ -34,8 +34,9 @@ public sealed class PizzaController : ApiController
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> All(GetAllPizzasQuery query, CancellationToken cancellationToken)
+	public async Task<IActionResult> All(CancellationToken cancellationToken)
 	{
+		GetAllPizzasQuery query = new();
 		Result<List<PizzaResponse>> result = await Sender.Send(query, cancellationToken);
 
 		return Ok(result.Value);
@@ -52,7 +53,7 @@ public sealed class PizzaController : ApiController
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> GetByName([FromBody] string name, CancellationToken cancellationToken)
+	public async Task<IActionResult> GetByName([FromQuery] string name, CancellationToken cancellationToken)
 	{
 		Result<Name> nameResult = Name.Create(name);
 

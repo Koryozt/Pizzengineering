@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Pizzengineering.Application.Abstractions.Messaging;
 using Pizzengineering.Application.Payments.Commands.Create;
 using Pizzengineering.Application.Payments.Commands.Update;
@@ -19,23 +21,46 @@ public sealed class PaymentCommandsHandler :
 	ICommandHandler<CreatePaymentCommand, Guid>,
 	ICommandHandler<UpdatePaymentCommand>
 {
+	private readonly IHttpContextAccessor _accessor;
 	private readonly IPaymentInfoRepository _repository;
+	private readonly IUserRepository _userRepository;
 	private readonly IUnitOfWork _uow;
 
-	public PaymentCommandsHandler(IPaymentInfoRepository repository, IUnitOfWork uow)
+	public PaymentCommandsHandler(
+		IHttpContextAccessor accessor, 
+		IPaymentInfoRepository repository, 
+		IUserRepository userRepository, 
+		IUnitOfWork uow)
 	{
+		_accessor = accessor;
 		_repository = repository;
+		_userRepository = userRepository;
 		_uow = uow;
 	}
 
 	public async Task<Result<Guid>> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
 	{
-		if (request.User.PaymentInformation is not null)
+		Guid id = Guid.Parse(
+			_accessor
+			.HttpContext
+			.User
+			.FindFirst(JwtRegisteredClaimNames.Sub)!.Value);
+
+		User? user = await _userRepository.GetByIdAsync(id, cancellationToken);
+
+		if (user is null)
+		{
+			return Result.Failure<Guid>(
+				DomainErrors
+				.User
+				.NotFound(id));
+		}
+		if (user.PaymentInformation is not null)
 		{
 			return Result.Failure<Guid>(
 				DomainErrors
 				.PaymentInformation
-				.UserAlreadyWithPaymentInformation(request.User.Id));
+				.UserAlreadyWithPaymentInformation(user.Id));
 		}
 
 		Result<CreditCardNumber> cardNumberResult = CreditCardNumber.Create(request.CreditCardNumber);
@@ -51,7 +76,7 @@ public sealed class PaymentCommandsHandler :
 
 		var information = PaymentInformation.Create(
 			Guid.NewGuid(),
-			request.User,
+			user,
 			cardNumberResult.Value,
 			nameResult.Value,
 			request.ExpirationDate,

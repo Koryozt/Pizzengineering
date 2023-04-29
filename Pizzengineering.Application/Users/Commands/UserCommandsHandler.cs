@@ -26,6 +26,8 @@ public sealed class UserCommandsHandler :
 	private readonly IJwtProvider _provider;
 	private readonly IUnitOfWork _uow;
 
+	//luissilva2010@gmail.com
+
 	public UserCommandsHandler(IUnitOfWork uow, IUserRepository repository, IJwtProvider provider)
 	{
 		_repository = repository;
@@ -85,16 +87,12 @@ public sealed class UserCommandsHandler :
 
 		User? member = await _repository.GetByEmailAsync(email.Value, cancellationToken);
 
-		
-
 		if (member is null)
 		{
 			return Result.Failure<string>(
 				DomainErrors.User.InvalidCredentials);
 		}
-
-
-
+		
 		string token = _provider.Generate(member);
 
 		return Result.Success(token);
