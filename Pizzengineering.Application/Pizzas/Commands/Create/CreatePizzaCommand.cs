@@ -14,4 +14,5 @@ public sealed record CreatePizzaCommand(
 	double Price,
 	bool HasDiscount,
 	double Rate,
+	string Cover,
 	string Description) : ICommand<Guid>;

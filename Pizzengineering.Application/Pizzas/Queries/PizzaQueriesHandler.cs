@@ -44,6 +44,7 @@ public sealed class PizzaQueriesHandler :
 			pizza.Name,
 			pizza.Description,
 			pizza.Rate,
+			pizza.Cover,
 			pizza.Price,
 			pizza.HasDiscount);
 
@@ -68,6 +69,7 @@ public sealed class PizzaQueriesHandler :
 			pizza.Name,
 			pizza.Description,
 			pizza.Rate,
+			pizza.Cover,
 			pizza.Price,
 			pizza.HasDiscount);
 
@@ -84,12 +86,13 @@ public sealed class PizzaQueriesHandler :
 		pizzas.ForEach(e =>
 		{
 			var response = new PizzaResponse(
-			e.Id,
-			e.Name,
-			e.Description,
-			e.Rate,
-			e.Price,
-			e.HasDiscount);
+				e.Id,
+				e.Name,
+				e.Description,
+				e.Rate,
+				e.Cover,
+				e.Price,
+				e.HasDiscount);
 
 			pizzaResponses.Add(response);
 		});

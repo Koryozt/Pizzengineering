@@ -13,6 +13,7 @@ public sealed record PizzaResponse(
 	Name Name,
 	Description Description,
 	Rate Rate,
+	string cover,
 	double Price,
 	bool HasDiscount
 	);

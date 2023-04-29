@@ -47,6 +47,7 @@ public sealed class PizzaCommandsHandler :
 			nameResult.Value,
 			descResult.Value,
 			rateResult.Value,
+			request.Cover,
 			request.Price,
 			request.HasDiscount
 			);

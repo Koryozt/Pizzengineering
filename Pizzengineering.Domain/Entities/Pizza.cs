@@ -17,12 +17,14 @@ public sealed class Pizza : AggregateRoot, IAuditableEntity
 		Name name,
 		double price,
 		bool hasDiscount,
+		string cover,
 		Rate rate,
 		Description description) : base(id)
 	{
 		Name = name;
 		Price = price;
 		HasDiscount = hasDiscount;
+		Cover = cover;
 		Rate = rate;
 		Description = description;
 	}
@@ -35,6 +37,7 @@ public sealed class Pizza : AggregateRoot, IAuditableEntity
 	public Name Name { get; private set; }
 	public double Price { get; private set; }
 	public bool HasDiscount { get; private set; }
+	public string Cover { get; private set; }
 	public Rate Rate { get; private set; }
 	public Description Description { get; private set; }
 	public DateTime CreatedOnUtc { get; init; }
@@ -45,6 +48,7 @@ public sealed class Pizza : AggregateRoot, IAuditableEntity
 		Name name,
 		Description description,
 		Rate rate,
+		string cover,
 		double price,
 		bool hasDiscount)
 	{
@@ -53,6 +57,7 @@ public sealed class Pizza : AggregateRoot, IAuditableEntity
 			name,
 			price,
 			hasDiscount,
+			cover,
 			rate,
 			description)
 		{
