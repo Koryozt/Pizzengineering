@@ -9,5 +9,6 @@ using Pizzengineering.Domain.Entities;
 namespace Pizzengineering.Application.Orders.Commands.Create;
 
 public sealed record CreateOrderCommand(
+	Guid UserId,
 	ICollection<Guid> PizzaIds,
 	DateTime PurchasedAtUtc) : ICommand<Guid>;

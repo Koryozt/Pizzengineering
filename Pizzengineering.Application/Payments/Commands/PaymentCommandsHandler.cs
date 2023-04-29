@@ -21,18 +21,15 @@ public sealed class PaymentCommandsHandler :
 	ICommandHandler<CreatePaymentCommand, Guid>,
 	ICommandHandler<UpdatePaymentCommand>
 {
-	private readonly IHttpContextAccessor _accessor;
 	private readonly IPaymentInfoRepository _repository;
 	private readonly IUserRepository _userRepository;
 	private readonly IUnitOfWork _uow;
 
 	public PaymentCommandsHandler(
-		IHttpContextAccessor accessor, 
 		IPaymentInfoRepository repository, 
 		IUserRepository userRepository, 
 		IUnitOfWork uow)
 	{
-		_accessor = accessor;
 		_repository = repository;
 		_userRepository = userRepository;
 		_uow = uow;
@@ -40,20 +37,14 @@ public sealed class PaymentCommandsHandler :
 
 	public async Task<Result<Guid>> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
 	{
-		Guid id = Guid.Parse(
-			_accessor
-			.HttpContext
-			.User
-			.FindFirst(JwtRegisteredClaimNames.Sub)!.Value);
-
-		User? user = await _userRepository.GetByIdAsync(id, cancellationToken);
+		User? user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
 
 		if (user is null)
 		{
 			return Result.Failure<Guid>(
 				DomainErrors
 				.User
-				.NotFound(id));
+				.NotFound(request.UserId));
 		}
 		if (user.PaymentInformation is not null)
 		{
