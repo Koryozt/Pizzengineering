@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using Pizzengineering.Application.Users.Commands.Login;
 using Pizzengineering.Application.Users.Commands.Register;
 using Pizzengineering.Application.Users.Commands.Update;
@@ -70,6 +73,20 @@ public sealed class UserController : ApiController
 		GetUserByIdQuery query = new(id);
 
 		Result<UserResponse> response = await Sender.Send(query,cancellationToken);
+
+		return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
+	}
+
+	[HttpGet]
+	public async Task<IActionResult> Me(CancellationToken cancellationToken)
+	{
+		var userId = HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value;
+
+		var id = Guid.Parse(userId);
+
+		GetUserByIdQuery query = new(id);
+
+		Result<UserResponse> response = await Sender.Send(query, cancellationToken);
 
 		return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
 	}
