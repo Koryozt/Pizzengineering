@@ -1,0 +1,56 @@
+﻿@page "/pizzas"
+@using Pizzengineering.Application.Pizzas.Queries;
+@using Pizzengineering.Application.Pizzas.Queries.All;
+@inject IPizzaService PizzaService
+@inject IHttpClientFactory ClientFactory
+
+<PageTitle>Papayon's Collection - Our Pizzas!</PageTitle>
+
+<h3>Select that sin that you want to eat today!</h3>
+
+@if(PizzasList is null)
+{
+	<span>Loading...</span>
+}
+else
+{
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Cover</th>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Price</th>
+				<th>Rate</th>
+				<th>Is in discount?</th>
+			</tr>
+			@foreach(var pizza in PizzasList)
+			{
+				<tr>
+					<td>@pizza.cover</td>
+					<td>@pizza.Name.Value</td>
+					<td>@pizza.Description.Value</td>
+					<td>@pizza.Price</td>
+					<td>@pizza.Rate.Value</td>
+					<td>@pizza.HasDiscount</td>
+				</tr>
+			}
+		</thead>
+	</table>
+}
+
+@code {
+	public List<PizzaResponse> PizzasList { get; set; } = new();
+
+	protected override async Task OnInitializedAsync()
+	{
+		GetAllPizzasQuery query = new();
+
+		PizzasList = await PizzaService.GetAllPizzasAsync(query);
+
+		foreach(var pizza in PizzasList)
+		{
+			Console.WriteLine(pizza.Name.Value is null);
+		}
+	}
+}

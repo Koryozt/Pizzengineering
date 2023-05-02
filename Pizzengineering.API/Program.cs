@@ -20,7 +20,7 @@ internal class Program
 {
 	private static void Main(string[] args)
 	{
-		const string BlazorAppUrl = "https://localhost:7148";
+		const string BlazorAppUrl = "https://localhost:7131";
 
 		var builder = WebApplication.CreateBuilder(args);
 

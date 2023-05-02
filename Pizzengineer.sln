@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pizzengineering.Presentatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pizzengineering.API", "Pizzengineering.API\Pizzengineering.API.csproj", "{90ED263B-2687-4CEF-950F-A3250F98317E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizzengineering.App", "Pizzengineering.App\Pizzengineering.App.csproj", "{CE91717D-2764-40CA-8A3C-6A04ECFB6399}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pizzengineering.App", "Pizzengineering.App\Pizzengineering.App.csproj", "{BE40C854-8282-4A8B-B5C5-CA5DF9DE6C11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +49,10 @@ Global
 		{90ED263B-2687-4CEF-950F-A3250F98317E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90ED263B-2687-4CEF-950F-A3250F98317E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90ED263B-2687-4CEF-950F-A3250F98317E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE91717D-2764-40CA-8A3C-6A04ECFB6399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE91717D-2764-40CA-8A3C-6A04ECFB6399}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE91717D-2764-40CA-8A3C-6A04ECFB6399}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE91717D-2764-40CA-8A3C-6A04ECFB6399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE40C854-8282-4A8B-B5C5-CA5DF9DE6C11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE40C854-8282-4A8B-B5C5-CA5DF9DE6C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE40C854-8282-4A8B-B5C5-CA5DF9DE6C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE40C854-8282-4A8B-B5C5-CA5DF9DE6C11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,7 +64,7 @@ Global
 		{FBF3E4CF-AA6B-49F7-90BC-B8BD19E690E4} = {03E62C0E-7E1B-49E2-91CB-E41AB0333D3F}
 		{38AEAF00-FC3B-45DD-9D0E-276E9FCB6722} = {03E62C0E-7E1B-49E2-91CB-E41AB0333D3F}
 		{90ED263B-2687-4CEF-950F-A3250F98317E} = {03E62C0E-7E1B-49E2-91CB-E41AB0333D3F}
-		{CE91717D-2764-40CA-8A3C-6A04ECFB6399} = {03E62C0E-7E1B-49E2-91CB-E41AB0333D3F}
+		{BE40C854-8282-4A8B-B5C5-CA5DF9DE6C11} = {03E62C0E-7E1B-49E2-91CB-E41AB0333D3F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {25828EFB-46DA-4FC4-AD27-56F781A39E7C}
