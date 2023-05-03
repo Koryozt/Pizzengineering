@@ -64,6 +64,7 @@ public sealed class User : AggregateRoot, IAuditableEntity
 			email,
 			hashed)
 		{
+			Roles = new Role[] { Role.Registered },
 			Salt = salt,
 			CreatedOnUtc = DateTime.UtcNow,
 			LastModifiedUtc = DateTime.UtcNow

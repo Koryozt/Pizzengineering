@@ -6,8 +6,10 @@ using Pizzengineering.Application.Pizzas.Queries;
 using Pizzengineering.Application.Pizzas.Queries.All;
 using Pizzengineering.Application.Pizzas.Queries.ById;
 using Pizzengineering.Application.Pizzas.Queries.GetByCondition;
+using Pizzengineering.Domain.Enumerators;
 using Pizzengineering.Domain.Shared;
 using Pizzengineering.Domain.ValueObjects.User;
+using Pizzengineering.Infrastructure.Authentication;
 using Pizzengineering.Presentation.Abstractions;
 
 namespace Pizzengineering.Presentation.Controller;
@@ -21,6 +23,9 @@ public sealed class PizzaController : ApiController
 	}
 
 	[HttpPost]
+	[HasPermission(Permissions.Administration)]
+	[HasPermission(Permissions.AccessUser)]
+	[HasPermission(Permissions.CreatePizza)]
 	public async Task<IActionResult> Create(CreatePizzaCommand command, CancellationToken cancellationToken)
 	{
 		Result<Guid> result = await Sender.Send(command, cancellationToken);
@@ -43,6 +48,8 @@ public sealed class PizzaController : ApiController
 	}
 
 	[HttpGet("{id:guid}")]
+	[HasPermission(Permissions.AccessUser)]
+	[HasPermission(Permissions.ReadPizza)]
 	public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
 	{
 		GetPizzaByIdQuery query = new(id);
@@ -69,6 +76,8 @@ public sealed class PizzaController : ApiController
 	}
 
 	[HttpPut]
+	[HasPermission(Permissions.AccessUser)]
+	[HasPermission(Permissions.UpdatePizza)]
 	public async Task<IActionResult> Update(UpdatePizzaCommand command, CancellationToken cancellationToken)
 	{
 		Result result = await Sender.Send(command, cancellationToken);

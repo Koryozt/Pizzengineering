@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Pizzengineering.Application.Orders.Commands.Create;
 using Pizzengineering.Application.Orders.Queries;
 using Pizzengineering.Application.Orders.Queries.GetByCondition;
+using Pizzengineering.Domain.Enumerators;
 using Pizzengineering.Domain.Shared;
+using Pizzengineering.Infrastructure.Authentication;
 using Pizzengineering.Presentation.Abstractions;
 
 namespace Pizzengineering.Presentation.Controller;
@@ -21,6 +23,8 @@ public sealed class OrderController : ApiController
 	}
 
 	[HttpPost]
+	[HasPermission(Permissions.AccessUser)]
+	[HasPermission(Permissions.CreateOrder)]
 	public async Task<IActionResult> Create(
 		[FromBody] CreateOrderCommand command, 
 		CancellationToken cancellationToken)
@@ -36,6 +40,8 @@ public sealed class OrderController : ApiController
 	}
 
 	[HttpGet("{id:guid}")]
+	[HasPermission(Permissions.AccessUser)]
+	[HasPermission(Permissions.Administration)]
 	public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
 	{
 		GetOrderByIdQuery query = new(id);
@@ -46,6 +52,7 @@ public sealed class OrderController : ApiController
 	}
 
 	[HttpGet("{id:guid}")]
+	[HasPermission(Permissions.AccessUser)]
 	public async Task<IActionResult> GetByUser(Guid id, CancellationToken cancellationToken)
 	{
 		GetOrderByUserQuery query = new(id);

@@ -9,7 +9,9 @@ using Pizzengineering.Application.Payments.Commands.Create;
 using Pizzengineering.Application.Payments.Commands.Update;
 using Pizzengineering.Application.Payments.Queries;
 using Pizzengineering.Application.Payments.Queries.GetByCondition;
+using Pizzengineering.Domain.Enumerators;
 using Pizzengineering.Domain.Shared;
+using Pizzengineering.Infrastructure.Authentication;
 using Pizzengineering.Presentation.Abstractions;
 
 namespace Pizzengineering.Presentation.Controller;
@@ -22,6 +24,8 @@ public sealed class PaymentInformationController : ApiController
 	}
 
 	[HttpPost]
+	[HasPermission(Permissions.AccessUser)]
+	[HasPermission(Permissions.CreatePaymentInformation)]
 	public async Task<IActionResult> Create(
 		CreatePaymentCommand command, 
 		CancellationToken cancellationToken)
@@ -37,6 +41,8 @@ public sealed class PaymentInformationController : ApiController
 	}
 
 	[HttpGet("{id:guid}")]
+	[HasPermission(Permissions.AccessUser)]
+	[HasPermission(Permissions.ReadPaymentInformation)]
 	public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
 	{
 		GetPaymentByIdQuery query = new(id);
@@ -52,6 +58,8 @@ public sealed class PaymentInformationController : ApiController
 	}
 
 	[HttpPut]
+	[HasPermission(Permissions.AccessUser)]
+	[HasPermission(Permissions.UpdatePaymentInformation)]
 	public async Task<IActionResult> Update(UpdatePaymentCommand command, CancellationToken cancellationToken)
 	{
 		Result result = await Sender.Send(command, cancellationToken);

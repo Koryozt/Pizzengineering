@@ -13,7 +13,9 @@ using Pizzengineering.Application.Users.Commands.Register;
 using Pizzengineering.Application.Users.Commands.Update;
 using Pizzengineering.Application.Users.Queries;
 using Pizzengineering.Application.Users.Queries.GetUserById;
+using Pizzengineering.Domain.Enumerators;
 using Pizzengineering.Domain.Shared;
+using Pizzengineering.Infrastructure.Authentication;
 using Pizzengineering.Presentation.Abstractions;
 
 namespace Pizzengineering.Presentation.Controller;
@@ -66,6 +68,8 @@ public sealed class UserController : ApiController
 	}
 
 	[HttpGet("{id:guid}")]
+	[HasPermission(Permissions.AccessUser)]
+	[HasPermission(Permissions.ReadUser)]
 	public async Task<IActionResult> Get(
 		Guid id,
 		CancellationToken cancellationToken)
@@ -78,6 +82,7 @@ public sealed class UserController : ApiController
 	}
 
 	[HttpGet]
+	[HasPermission(Permissions.AccessUser)]
 	public async Task<IActionResult> Me(CancellationToken cancellationToken)
 	{
 		var userId = HttpContext.User.Claims.First(e => e.Type == ClaimTypes.NameIdentifier).Value;
